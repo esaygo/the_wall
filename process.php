@@ -10,11 +10,19 @@ if(isset($_POST['action']) && $_POST['action'] == 'register') {
 elseif(isset($_POST['action']) && $_POST['action'] == 'login') {
   login_user($_POST);
 
-} else{ //malicious nav to process.php or someone trying to log off
+}
+elseif(isset($_POST['action']) && $_POST['action'] == 'message') {
+  post_message($_POST);
+  //var_dump("this is the message" . $_POST);
+  //die();
+}
+else{ //malicious nav to process.php or someone trying to log off
   session_destroy();
   header('Location: index.php');
   die();
 }
+
+
 
 function register_user($post) {
   $_SESSION['errors'] = array();
@@ -66,5 +74,13 @@ function login_user($post) {
   }
 }
 
+function post_message($post) {
+  $query = "INSERT INTO messages(message,created_at,updated_at, users_id) VALUES ('".$post['message']."',NOW(),NOW(), '".$_SESSION['user_id']."')";
+  var_dump($post);
+  echo "this is the message" . $query;
+  run_mysql_query($query);
+  header('Location:the_wall.php');
+  die();
+}
 
  ?>

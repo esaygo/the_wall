@@ -26,10 +26,11 @@ session_start();
 <div class="hline"></div>
 
 <div id="the_wall">
-  <form class="pure-form">
+  <form class="pure-form" action="process.php" method="post">
+    <input type='hidden' name="action" value="message">
     <fieldset class="pure-group">
       <legend><strong>Post a message</strong></legend>
-        <textarea class="pure-input-1-2" placeholder="Type in your message"></textarea>
+        <textarea class="pure-input-1-2" placeholder="Type in your message" name="message"></textarea>
     </fieldset>
     <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Post a message</button>
 </form>
