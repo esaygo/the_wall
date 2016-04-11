@@ -2,6 +2,11 @@
   font-family: cursive, serif;
 }
 
+body {
+  background-image: url('../img/wall.jpg');
+  background-size: cover;
+}
+
 .button-success,
         .button-error,
         .button-warning,
@@ -32,8 +37,7 @@
 }
 
 .button-secondary {
-  background: rgb(66, 184, 221);
- /* this is a light blue */
+  background: rgb(66, 179, 32);
   font-size: 0.9em;
 }
 
