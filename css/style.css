@@ -70,3 +70,15 @@ a {
   border: 2px solid grey;
   width: 100%;
 }
+
+#display_messages {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+#display_messages li {
+  list-style: none;
+}
+#display_messages p {
+  text-indent: 5%;
+}
