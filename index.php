@@ -17,10 +17,10 @@
 </head>
 <body>
   <?php
+  var_dump($_SESSION);
 if(isset($_SESSION['errors'])) {
   foreach ($_SESSION['errors'] as $error) {
     echo "<p class='error'>{$error}</p>";
-    // var_dump($_SESSION);
   }
   unset($_SESSION['errors']);
 }

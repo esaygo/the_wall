@@ -5,7 +5,6 @@ require_once('connection.php');
 
 <!DOCTYPE html>
 <html>
-  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
@@ -18,6 +17,7 @@ require_once('connection.php');
 <section id="welcome">
 <h1>Coding Dojo Wall</h1>
 <?php
+
   if(isset($_SESSION['login_message']) && $_SESSION['login_message'] == "success") {
       echo "<h2 class='succes'>Welcome, " . $_SESSION['first_name'] . "!</h2>";
       echo "<span><a href='process.php'>Log off</a></span>";
@@ -25,7 +25,7 @@ require_once('connection.php');
   ?>
   </section>
 <div class="hline"></div>
-<div id="the_wall">
+<div id ="the_wall">
   <form class="pure-form" action="process.php" method="post">
     <input type='hidden' name="action" value="message">
     <fieldset class="pure-group">
@@ -35,27 +35,43 @@ require_once('connection.php');
     <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Post a message</button>
 </form>
 </div>
+
 <div id="display_messages">
   <?php
   $query_count_msg = "SELECT count(*) FROM messages";
   $count_msg = fetch_record($query_count_msg);
 
   if($count_msg > 0) {
-    $query_get_msg = "SELECT first_name, last_name, users.created_at, message FROM users LEFT JOIN messages ON users.id = messages.users_id
-";
+    $query_get_msg = "SELECT first_name, last_name, users.created_at, message, messages.id FROM users LEFT JOIN messages ON users.id = messages.users_id";
     $messages = fetch_all($query_get_msg);
-    //var_dump($messages);
+
     for($i=0; $i<count($messages); $i++){
+        if($messages[$i]['message'] !== null) {
+            echo '<div class="message"><li>' . $messages[$i]['first_name'] . " " . $messages[$i]['last_name'] . " - " . $messages[$i]['created_at'] ;
+            echo '<p>' . $messages[$i]['message'] . '</p>'; ?>
 
-        echo '<div class="message"><li>' . $messages[$i]['first_name'] . " " . $messages[$i]['last_name'] . " - " . $messages[$i]['created_at'] ;
-        echo '<p>' . $messages[$i]['message'] . '</p></div><div class="hline"></div>  ';
+      <!--*************** input comment ************************* -->
+         <div id="the_wall">
+           <form class="pure-form" action="process.php" method="post">
+               <input type='hidden' name="action" value="comment">
+               <fieldset class="pure-group">
+                 <legend><strong>Post a comment</strong></legend>
+                   <textarea class="pure-input-1-2" placeholder="Leave a comment" name="comment"></textarea>
+     <!--*************** store message id ************************* -->
+                   <input type='hidden' name='message_id' value=" <?php echo $messages[$i]['id']; ?> ">
+               </fieldset>
+               <button type="submit" class="pure-button pure-input-1-2 button-secondary">Leave a comment</button>
+           </form>
+        </div>
+    <!-- ************end of input comment ************************* -->
+      <?php
+        }
     }
-
   }
 
   ?>
 
-</div>
+</div> <!-- end of message input-->
 
 </body>
 </html>

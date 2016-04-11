@@ -13,16 +13,20 @@ elseif(isset($_POST['action']) && $_POST['action'] == 'login') {
 }
 elseif(isset($_POST['action']) && $_POST['action'] == 'message') {
   post_message($_POST);
-  //var_dump("this is the message" . $_POST);
+
+}
+elseif (isset($_POST['action']) && $_POST['action'] == 'comment') {
+  //echo "COMMENT IS POSTED";
+  post_comment();
+  //var_dump("this is the comment" . $_POST);
   //die();
 }
+
 else{ //malicious nav to process.php or someone trying to log off
   session_destroy();
   header('Location: index.php');
   die();
 }
-
-
 
 function register_user($post) {
   $_SESSION['errors'] = array();
@@ -76,11 +80,25 @@ function login_user($post) {
 
 function post_message($post) {
   $query = "INSERT INTO messages(message,created_at,updated_at, users_id) VALUES ('".$post['message']."',NOW(),NOW(), '".$_SESSION['user_id']."')";
-  var_dump($post);
-  echo "this is the message" . $query;
+  //var_dump($post);
+  //echo "this is the message" . $query;
   run_mysql_query($query);
   header('Location:the_wall.php');
   die();
 }
+
+function post_comment() {
+
+  $message_id = $_POST['message_id'];
+  //var_dump($message_id);
+  //var_dump($_SESSION);
+  //var_dump($_POST);
+  //die();
+  $query = "INSERT INTO comments(comment,created_at,updated_at, messages_id, users_id) VALUES ('".$_POST['comment']."',NOW(),NOW(),'".$_POST['message_id']."', '".$_SESSION['user_id']."')";
+  run_mysql_query($query);
+  //header('Location:the_wall.php');
+}
+
+
 
  ?>
