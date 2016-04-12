@@ -94,6 +94,7 @@ function post_comment() {
   //var_dump($_SESSION);
   //var_dump($_POST);
   //die();
+  //$_SESSION['comment'] = $_POST['message_id'];
   $query = "INSERT INTO comments(comment,created_at,updated_at, messages_id, users_id) VALUES ('".$_POST['comment']."',NOW(),NOW(),'".$_POST['message_id']."', '".$_SESSION['user_id']."')";
   run_mysql_query($query);
   header('Location:the_wall.php');

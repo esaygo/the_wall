@@ -45,22 +45,29 @@ require_once('connection.php');
     $query_get_msg = "SELECT first_name, last_name, users.created_at, message, messages.id FROM users LEFT JOIN messages ON users.id = messages.users_id";
     $messages = fetch_all($query_get_msg);
 
-    $query_get_comments = "SELECT comment, comments.created_at, comments.users_id FROM messages LEFT JOIN comments ON messages.id = comments.messages_id";
-    $comments = fetch_all($query_get_comments);
-
-    //var_dump($comments);
+    //var_dump($messages);
 
     for($i=0; $i<count($messages); $i++){
 
         if($messages[$i]['message'] !== null) {
+          $msg_id = $messages[$i]['id'];
+          //var_dump($msg_id);
+          //die();
             echo '<div class="message">' . $messages[$i]['first_name'] . " " . $messages[$i]['last_name'] . " - " . $messages[$i]['created_at'] ;
             echo '<p>' . $messages[$i]['message'] . '</p>';
 
+
+            $query_get_comments = "SELECT comment, comments.created_at, comments.users_id FROM messages INNER JOIN comments ON messages.id = comments.messages_id WHERE  comments.messages_id = $msg_id";
+
+            $comments = fetch_all($query_get_comments);
+            // var_dump($comments);
+            // die('comment');
+
             for($j=0; $j<count($comments); $j++){
-              if(true) {
+
               echo '<div class="comment">' . $comments[$j]['created_at'] . " " . $comments[$j]['users_id'];
               echo '<p>' . $comments[$j]['comment'] . '</p></div>';
-            }
+
           } //end of comments loop
         ?>
       <!--*************** input comment ************************* -->
@@ -71,7 +78,7 @@ require_once('connection.php');
                  <legend><strong>Post a comment</strong></legend>
                    <textarea class="pure-input-1-2" placeholder="Leave a comment" name="comment"></textarea>
      <!--*************** store message id ************************* -->
-                   <input type='hidden' name='post_id' value=" <?php echo $comments[$j]['id']; ?> ">
+                   <input type='hidden' name='message_id' value=" <?php echo $msg_id; ?> ">
                </fieldset>
                <button type="submit" class="pure-button pure-input-1-2 button-secondary">Leave a comment</button>
            </form>
